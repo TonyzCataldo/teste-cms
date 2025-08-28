@@ -1,0 +1,46 @@
+/* input {
+  padding: 2rem !important;
+} */
+/* 
+form {
+  padding: 0 !important;
+} */
+.puckOutline svg {
+  color: oklch(72.3% 0.219 149.579) !important;
+}
+.puckOutline div {
+  color: var(--txt);
+}
+
+.puckOutline div div :hover {
+  background-color: var(--gray);
+}
+
+.puckOutline li :hover {
+  background-color: var(--gray) !important;
+}
+
+.puckOutline div div {
+  border: none;
+}
+
+.puckOutline div div ul div {
+  pointer-events: all;
+}
+
+.puckOutline button {
+  background-color: var(--bg);
+}
+
+.puckOutline [class*="Selected"] {
+  background-color: var(--bg);
+  border: 1px solid var(--txt);
+}
+.puckOutline li [class*="_Layer-zones"] {
+  background-color: var(--bg) !important;
+  pointer-events: none;
+}
+
+.puckOutline li [class*="_Layer-zones"] :hover {
+  background-color: var(--gray) !important;
+}
