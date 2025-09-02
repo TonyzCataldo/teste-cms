@@ -4,18 +4,11 @@
   --font-sans: var(--font-poppins);
   --font-mono: var(--font-mono);
 }
-@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --bg: white;
   --txt: rgb(8, 12, 17);
   --gray: oklch(92.8% 0.006 264.531);
-}
-
-html.dark {
-  --bg: rgb(8, 12, 17);
-  --txt: white;
-  --gray: oklch(27.8% 0.033 256.848);
 }
 
 body {
