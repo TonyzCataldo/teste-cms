@@ -3,10 +3,10 @@ import { deletePage } from "../../../lib/get-page";
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { name: string } }
+  { params }: { params: Promise<{ name: string }> }
 ) {
-  const raw = params.name;
-  const slug = "/" + raw;
+  const { name } = await params;
+  const slug = "/" + name;
 
   const ok = deletePage(slug);
   if (!ok) {

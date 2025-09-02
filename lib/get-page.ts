@@ -32,4 +32,5 @@ export function deletePage(name: string) {
   delete data[name];
 
   fs.writeFileSync("database.json", JSON.stringify(data, null), "utf-8");
+  return true;
 }
