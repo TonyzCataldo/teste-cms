@@ -1,6 +1,5 @@
 //"use client";
 
-import AddButton from "../components/AddButton/AddButton";
 import AddModal from "../components/AddModal/AddModal";
 import Header from "../components/Header/Header";
 import PagesList from "../components/PagesList/PagesList";
