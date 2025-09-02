@@ -1,5 +1,4 @@
-import Header from "../components/Header/Header";
-import Providers from "./Providers";
+import StyledComponentsRegistry from "./styled-registry";
 import "./styles.css";
 import { Poppins, Roboto_Mono } from "next/font/google";
 
@@ -23,9 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${mono.variable} antialiased relative`}
+        className={`${poppins.variable} ${mono.variable}  antialiased relative`}
       >
-        <Providers>{children}</Providers>
+        {/* {children} */}
+        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
     </html>
   );
