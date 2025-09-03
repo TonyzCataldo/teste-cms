@@ -3,13 +3,14 @@ import { rgba } from "polished";
 
 export const LinkButton = styled.a<{
   $paddingBlock: string;
-  $paddingInline: string;
+  $width: number;
   $color: string;
   $textColor: string;
   $radius: number;
 }>`
   padding-block: ${({ $paddingBlock }) => $paddingBlock};
-  padding-inline: ${({ $paddingInline }) => $paddingInline};
+  text-align: center;
+  width: ${({ $width }) => `${$width}%`};
   background-color: ${({ $color }) => $color};
   border-radius: ${({ $radius }) => `${$radius}px`};
   cursor: pointer;
@@ -36,6 +37,8 @@ export const TextLinkButton = styled(OutlinedLinkButton)`
 export const LinkButtonContainer = styled.div<{
   $justifyContent: string;
 }>`
+  width: 100%;
+
   display: flex;
   justify-content: ${({ $justifyContent }) => $justifyContent};
 `;
