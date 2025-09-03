@@ -22,19 +22,26 @@ type Props = {
     color: string;
     textAlign: string;
   };
-  "Container em linha": {
+  "Container flexível": {
     content?: Slot;
+    direction: string;
     verticalAlign: string;
     horizontalAlign: string;
+    width: string;
     semanticElement: string;
+    radius: number;
+    variant: string;
     paddingBlock: number;
+    paddingInline: number;
     gap: number;
+    wrap: "wrap" | "nowrap";
   };
   "Container em tabela": {
     content?: Slot;
     cols: number;
     gap: number;
     paddingBlock: number;
+    paddingInline: number;
     semanticElement: string;
   };
   Paragrafo: {
@@ -46,15 +53,23 @@ type Props = {
   };
   "Botão/Link": {
     text: string;
-    paddingInline: string;
     variant: string;
     paddingBlock: string;
     justifyContent: string;
+    width: number;
     color: string;
     textColor: string;
     radius: number;
     href: string;
   };
+  Imagem: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    radius: number;
+  };
+  Cabeçalho: any;
 };
 
 export const config: Config<Props> = {
@@ -128,10 +143,18 @@ export const config: Config<Props> = {
       ),
     },
 
-    "Container em linha": {
+    "Container flexível": {
       label: "Container Flex",
       fields: {
         content: { type: "slot" },
+        direction: {
+          label: "Direção do container",
+          type: "radio",
+          options: [
+            { label: "Linha", value: "row" },
+            { label: "Coluna", value: "column" },
+          ],
+        },
         verticalAlign: {
           label: "Alinhamento Vertical",
           type: "radio",
@@ -152,6 +175,33 @@ export const config: Config<Props> = {
             { label: "Espaço por volta", value: "space-around" },
           ],
         },
+        width: {
+          label: "Largura",
+          type: "select",
+          options: [
+            { label: "auto", value: "auto" },
+            { label: "50px", value: "50px" },
+            { label: "100px", value: "100px" },
+            { label: "150px", value: "150px" },
+            { label: "200px", value: "200px" },
+            { label: "250px", value: "250px" },
+            { label: "300px", value: "300px" },
+            { label: "350px", value: "350px" },
+            { label: "400px", value: "400px" },
+            { label: "500px", value: "500px" },
+            { label: "600px", value: "600px" },
+            { label: "700px", value: "700px" },
+            { label: "800px", value: "800px" },
+          ],
+        },
+        variant: {
+          label: "Variação",
+          type: "radio",
+          options: [
+            { label: "Normal", value: "default" },
+            { label: "Card", value: "card" },
+          ],
+        },
         semanticElement: {
           label: "Elemento semântico",
           type: "select",
@@ -164,45 +214,105 @@ export const config: Config<Props> = {
           ],
         },
         paddingBlock: {
-          label: "Preenchimento Vertical",
+          label: "Preenchimento vertical",
+          type: "number",
+        },
+        paddingInline: {
+          label: "Preenchimento horizontal",
           type: "number",
         },
         gap: {
           label: "Distanciamento",
           type: "number",
         },
+        radius: {
+          label: "Arredondamento",
+          type: "number",
+        },
+        wrap: {
+          label: "Quebrar linha",
+          type: "radio",
+          options: [
+            { label: "Sim", value: "wrap" },
+            { label: "Não", value: "nowrap" },
+          ],
+        },
       },
       defaultProps: {
+        direction: "row",
         verticalAlign: "start",
         horizontalAlign: "start",
+        variant: "default",
+        width: "auto",
         paddingBlock: 0,
+        paddingInline: 0,
         gap: 0,
+        radius: 0,
+        wrap: "wrap",
         semanticElement: "div",
       },
 
       render: ({
         content: Content,
+        direction,
         verticalAlign,
         horizontalAlign,
         paddingBlock,
+        paddingInline,
+        width,
         gap,
+        radius,
+        variant,
         semanticElement,
-      }) => (
-        <SemanticDiv as={semanticElement}>
-          <Content
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: `${verticalAlign}`,
-              paddingBlock: `${paddingBlock}px`,
-              justifyContent: `${horizontalAlign}`,
-              gap: `${gap}px`,
-            }}
-            minEmptyHeight={160}
-          />
-        </SemanticDiv>
-      ),
+        wrap,
+      }) =>
+        direction === "row" ? (
+          <SemanticDiv as={semanticElement}>
+            <Content
+              style={{
+                display: "flex",
+                flexWrap: `${wrap}`,
+                width: `${width}`,
+                alignItems: `${verticalAlign}`,
+                flexDirection: "row",
+                paddingBlock: `${paddingBlock}px`,
+                paddingInline: `${paddingInline}px`,
+                justifyContent: `${horizontalAlign}`,
+                gap: `${gap}px`,
+                borderRadius: `${radius}px`,
+                boxShadow:
+                  variant === "card"
+                    ? "0 3px 12px rgba(0, 0, 0, 0.12)"
+                    : "none",
+              }}
+              minEmptyHeight={160}
+            />
+          </SemanticDiv>
+        ) : (
+          <SemanticDiv as={semanticElement}>
+            <Content
+              style={{
+                display: "flex",
+                flexWrap: `${wrap}`,
+                width: `${width}`,
+                alignItems: `${horizontalAlign}`,
+                flexDirection: "column",
+                paddingBlock: `${paddingBlock}px`,
+                paddingInline: `${paddingInline}px`,
+                justifyContent: `${verticalAlign}`,
+                gap: `${gap}px`,
+                borderRadius: `${radius}px`,
+                boxShadow:
+                  variant === "card"
+                    ? "0 3px 12px rgba(0, 0, 0, 0.12)"
+                    : "none",
+              }}
+              minEmptyHeight={160}
+            />
+          </SemanticDiv>
+        ),
     },
+
     "Container em tabela": {
       label: "Container Grid",
       fields: {
@@ -211,7 +321,11 @@ export const config: Config<Props> = {
         gap: { label: "distanciamento", type: "number" },
         paddingBlock: {
           type: "number",
-          label: "Preenchimento Vertical",
+          label: "Preenchimento vertical",
+        },
+        paddingInline: {
+          type: "number",
+          label: "Preenchimento horizontal",
         },
         semanticElement: {
           label: "Elemento semântico",
@@ -229,6 +343,7 @@ export const config: Config<Props> = {
         cols: 2,
         gap: 16,
         paddingBlock: 0,
+        paddingInline: 0,
         semanticElement: "div",
       },
       render: ({
@@ -236,6 +351,7 @@ export const config: Config<Props> = {
         cols,
         gap,
         paddingBlock,
+        paddingInline,
         semanticElement,
       }) => (
         <SemanticDiv as={semanticElement}>
@@ -246,6 +362,7 @@ export const config: Config<Props> = {
               gridTemplateColumns: `repeat(${cols}, 1fr)`,
               gap: `${gap}px`,
               paddingBlock: `${paddingBlock}px`,
+              paddingInline: `${paddingInline}px`,
               alignItems: "center",
             }}
           />
@@ -314,19 +431,24 @@ export const config: Config<Props> = {
           ],
         },
         justifyContent: {
-          type: "radio",
           label: "Alinhamento horizontal",
+          type: "radio",
           options: [
-            { label: "Esquerda", value: "start" },
-            { label: "Centro", value: "center" },
-            { label: "Direita", value: "end" },
+            { label: "Começo", value: "start" },
+            { label: "Meio", value: "center" },
+            { label: "Fim", value: "end" },
           ],
+        },
+        width: {
+          label: "Largura (porcentagem)",
+          type: "number",
         },
         paddingBlock: {
           type: "select",
           label: "Preenchimento vertical",
           options: [
             { label: "8px", value: "0.5rem" },
+            { label: "12px", value: "0.75rem" },
             { label: "16px", value: "1rem" },
             { label: "20px", value: "1.25rem" },
             { label: "24px", value: "1.5rem" },
@@ -341,26 +463,7 @@ export const config: Config<Props> = {
             { label: "144px", value: "9rem" },
           ],
         },
-        paddingInline: {
-          type: "select",
-          label: "Preenchimento horizontal",
-          options: [
-            { label: "8px", value: "0.5rem" },
-            { label: "16px", value: "1rem" },
-            { label: "20px", value: "1.25rem" },
-            { label: "24px", value: "1.5rem" },
-            { label: "28px", value: "1.75rem" },
-            { label: "32px", value: "2rem" },
-            { label: "40px", value: "2.5rem" },
-            { label: "48px", value: "3rem" },
-            { label: "56px", value: "3.5rem" },
-            { label: "64px", value: "4rem" },
-            { label: "80px", value: "5rem" },
-            { label: "96px", value: "6rem" },
-            { label: "112px", value: "7rem" },
-            { label: "144px", value: "9rem" },
-          ],
-        },
+
         color: {
           type: "select",
           label: "Cor",
@@ -371,6 +474,7 @@ export const config: Config<Props> = {
             { label: "Rosa", value: "pink" },
             { label: "Cinza", value: "gray" },
             { label: "Preto", value: "black" },
+            { label: "Roxo", value: "purple" },
           ],
         },
         textColor: {
@@ -394,31 +498,36 @@ export const config: Config<Props> = {
         text: "Botão",
         variant: "contained",
         paddingBlock: "0.5rem",
-        paddingInline: "0.5rem",
+        width: 100,
         color: "green",
         textColor: "white",
-        justifyContent: "start",
+        justifyContent: "center",
         radius: 8,
         href: "https://www.youtube.com/playlist?list=PLpzmRsG7u_gpMogZpIcZnS0BsD3z8_x3n",
       },
+      inline: true,
 
       render: ({
         variant,
         text,
+        width,
         paddingBlock,
         color,
         textColor,
-        paddingInline,
         justifyContent,
         radius,
+        puck,
         href,
       }) =>
         variant === "contained" ? (
-          <LinkButtonContainer $justifyContent={justifyContent}>
+          <LinkButtonContainer
+            ref={puck.dragRef}
+            $justifyContent={justifyContent}
+          >
             <LinkButton
               href={href}
               $paddingBlock={paddingBlock}
-              $paddingInline={paddingInline}
+              $width={width}
               $color={color}
               $textColor={textColor}
               $radius={radius}
@@ -427,11 +536,14 @@ export const config: Config<Props> = {
             </LinkButton>
           </LinkButtonContainer>
         ) : variant === "outlined" ? (
-          <LinkButtonContainer $justifyContent={justifyContent}>
+          <LinkButtonContainer
+            $justifyContent={justifyContent}
+            ref={puck.dragRef}
+          >
             <OutlinedLinkButton
               href={href}
               $paddingBlock={paddingBlock}
-              $paddingInline={paddingInline}
+              $width={width}
               $color={color}
               $textColor={textColor}
               $radius={radius}
@@ -440,11 +552,14 @@ export const config: Config<Props> = {
             </OutlinedLinkButton>
           </LinkButtonContainer>
         ) : (
-          <LinkButtonContainer $justifyContent={justifyContent}>
+          <LinkButtonContainer
+            $justifyContent={justifyContent}
+            ref={puck.dragRef}
+          >
             <TextLinkButton
               href={href}
               $paddingBlock={paddingBlock}
-              $paddingInline={paddingInline}
+              $width={width}
               $color={color}
               $textColor={textColor}
               $radius={radius}
@@ -482,6 +597,98 @@ export const config: Config<Props> = {
         ></img>
       ),
     },
+    Cabeçalho: {
+      label: "Cabeçalho",
+      fields: {
+        content: {
+          type: "slot",
+        },
+      },
+      defaultProps: {
+        content: [
+          {
+            type: "Container flexível",
+            props: {
+              direction: "row",
+              verticalAlign: "center",
+              horizontalAlign: "space-between",
+              variant: "card",
+              paddingBlock: 0,
+              paddingInline: 32,
+              width: "auto",
+              gap: 0,
+              radius: 0,
+              semanticElement: "header",
+              wrap: "wrap",
+              content: [
+                {
+                  type: "Título",
+                  props: {
+                    title: "Meu Site",
+                    fontSize: 40,
+                    heading: "h1",
+                    textAlign: "left",
+                    paddingBlock: 0,
+                    color: "black",
+                  },
+                },
+                {
+                  type: "Container flexível",
+                  props: {
+                    verticalAlign: "center",
+                    direction: "row",
+                    horizontalAlign: "end",
+                    gap: 20,
+                    semanticElement: "nav",
+                    variant: "default",
+                    paddingBlock: 0,
+                    paddingInline: 0,
+                    radius: 0,
+                    width: "250px",
+                    wrap: "nowrap",
+                    content: [
+                      {
+                        type: "Botão/Link",
+                        props: {
+                          text: "Sobre nós",
+                          variant: "text",
+                          width: 100,
+                          paddingBlock: "0.75rem",
+                          color: "black",
+                          textColor: "white",
+                          justifyContent: "center",
+                          radius: 8,
+                          href: "https://www.youtube.com/playlist?list=PLpzmRsG7u_gpMogZpIcZnS0BsD3z8_x3n",
+                        },
+                      },
+                      {
+                        type: "Botão/Link",
+                        props: {
+                          text: "Contatos",
+                          variant: "text",
+                          width: 100,
+                          paddingBlock: "0.75rem",
+                          color: "black",
+                          textColor: "white",
+                          justifyContent: "center",
+                          radius: 8,
+                          href: "https://www.youtube.com/playlist?list=PLpzmRsG7u_gpMogZpIcZnS0BsD3z8_x3n",
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      render: ({ content: Content }) => (
+        <div>
+          <Content />
+        </div>
+      ),
+    },
   },
   root: {
     fields: {
@@ -499,7 +706,7 @@ export const config: Config<Props> = {
           <Head>
             <title>{title}</title>
           </Head>
-          <main id="root" style={{ paddingInline: "1rem", height: "100%" }}>
+          <main id="root" style={{ height: "200%" }}>
             {children}
           </main>
         </>
