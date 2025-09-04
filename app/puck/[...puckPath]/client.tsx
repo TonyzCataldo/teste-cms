@@ -1,7 +1,7 @@
 "use client";
 
 import type { Data } from "@measured/puck";
-import { Puck, useGetPuck } from "@measured/puck";
+import { Puck, useGetPuck, Drawer } from "@measured/puck";
 import config from "../../../puck.config";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,47 +12,22 @@ import IframeGuard from "./IframeGuard";
 import Link from "next/link";
 import UpdateRoot from "./UpdateRoot";
 import TextInput from "./TextInput";
+import PuckComponent from "./PuckComponent";
+import ComponentCategorie from "./ComponentCategorie";
+import FieldLabel from "./FieldLabel";
+import SaveButton from "./SaveButton";
 
 export function Client({ path, data }: { path: string; data: Partial<Data> }) {
   const [selectedOption, setSelectedOption] = useState("components");
   const [isEditorUp, setIsEditorUp] = useState(false);
-
-  const rootTitle = data.root?.props.title;
+  const [categorieTextUp, setCategorieTextUp] = useState(false);
+  const [categorieContainerUp, setCategorieContainerUp] = useState(false);
+  const [categoriePremadeUp, setCategoriePremadeUp] = useState(false);
+  const [categorieOtherUp, setCategorieOtherUp] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setIsEditorUp(true), 50);
   }, []);
-
-  function SaveButton({ path }: { path: string }) {
-    const getPuck = useGetPuck();
-
-    const publish = async () => {
-      const { appState } = getPuck();
-      await axios.post("/puck/api", { data: appState.data, path });
-    };
-
-    return (
-      <button
-        className="px-6 py-3 rounded-md text-lg font-mono cursor-pointer transition-colors duration-300 delay-50 bg-green-600/40 hover:bg-green-500"
-        onClick={publish}
-      >
-        Salvar
-      </button>
-    );
-  }
-
-  const MyFieldLabel = ({
-    label,
-    children,
-  }: {
-    label: string;
-    children: React.ReactNode;
-  }) => (
-    <label className="flex flex-col mb-1.5">
-      <div className="text-lg  font-mono pl-0.5 text-green-500">{label}</div>
-      {children}
-    </label>
-  );
 
   return (
     <Puck
@@ -60,7 +35,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
       data={data}
       overrides={{
         drawerItem: ({ name }) => (
-          <div className="border border-gray-700  rounded-sm bg-gray-100  hover:bg-[var(--gray)] hover:text-green-500 p-3 cursor-grab">
+          <div className="border border-gray-700 rounded-sm bg-gray-100  hover:bg-[var(--gray)] hover:text-green-500 p-3 cursor-grab">
             {name}
           </div>
         ),
@@ -70,18 +45,67 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
         ),
 
         fieldLabel: ({ children, label }) => (
-          <MyFieldLabel label={label}>{children}</MyFieldLabel>
+          <FieldLabel label={label}>{children}</FieldLabel>
         ),
         fieldTypes: {
           text: ({ value, onChange, field, name }) => (
-            <MyFieldLabel label={(field as any)?.label ?? name}>
-              <TextInput value={value} onChange={onChange} name={name} />
-            </MyFieldLabel>
+            <FieldLabel label={field.label ?? name}>
+              <TextInput
+                value={value}
+                onChange={onChange}
+                name={name}
+                type="text"
+              />
+            </FieldLabel>
           ),
           number: ({ name, value, onChange, field }) => (
-            <MyFieldLabel label={(field as any)?.label ?? name}>
-              <TextInput value={value} onChange={onChange} name={name} />
-            </MyFieldLabel>
+            <FieldLabel label={field.label ?? name}>
+              <TextInput
+                value={value}
+                onChange={onChange}
+                name={name}
+                type="number"
+              />
+            </FieldLabel>
+          ),
+          radio: ({ name, value, onChange, field }) => (
+            <FieldLabel label={field.label ?? name} radio>
+              <div className="flex justify-center my-2 gap-2.5">
+                {(field.options ?? []).map((opt, i) => {
+                  const checked = value === opt.value;
+
+                  return (
+                    <button
+                      className={`flex-1 py-2 border rounded-sm cursor-pointer aria-checked:bg-green-500 hover:bg-green-100 text-gray-700 border-gray-300`}
+                      key={i}
+                      type="button"
+                      role="radio"
+                      name={name}
+                      aria-checked={checked}
+                      onClick={() => onChange(opt.value)}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </FieldLabel>
+          ),
+          select: ({ name, value, onChange, field }) => (
+            <FieldLabel label={field.label ?? name}>
+              <select
+                name={name}
+                className="border rounded-md p-3 cursor-pointer border-gray-300 outline-0"
+                value={value ?? ""}
+                onChange={(e) => onChange(e.target.value || undefined)}
+              >
+                {(field.options ?? []).map((opt, i) => (
+                  <option key={i} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </FieldLabel>
           ),
         },
       }}
@@ -162,7 +186,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                   }
                 }}
               >
-                Raiz da página
+                Página
               </button>
 
               <button
@@ -172,13 +196,122 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                 <Image
                   className={`w-6 ${isEditorUp ? "rotate-180" : "rotate-0"}`}
                   src={arrowSvg}
-                  alt="up/down icon"
+                  alt="cima/baixo icone"
                 />
               </button>
             </div>
             {selectedOption === "components" ? (
               <div className="px-4 pb-4 min-h-48 max-h-48 overflow-y-auto">
-                <Puck.Components />
+                <Drawer>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <div onClick={() => setCategorieTextUp(!categorieTextUp)}>
+                        <ComponentCategorie
+                          name="Textos"
+                          svg={arrowSvg}
+                          state={categorieTextUp}
+                        />
+                      </div>
+
+                      <div
+                        className="flex gap-3"
+                        style={{ display: categorieTextUp ? "flex" : "none" }}
+                      >
+                        <Drawer.Item name="Título">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Paragrafo">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <div
+                        onClick={() =>
+                          setCategorieContainerUp(!categorieContainerUp)
+                        }
+                      >
+                        <ComponentCategorie
+                          name="Containers"
+                          svg={arrowSvg}
+                          state={categorieContainerUp}
+                        />
+                      </div>
+
+                      <div
+                        className="flex gap-3"
+                        style={{
+                          display: categorieContainerUp ? "flex" : "none",
+                        }}
+                      >
+                        <Drawer.Item name="Container flexível">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Container tabela">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <div
+                        onClick={() =>
+                          setCategoriePremadeUp(!categoriePremadeUp)
+                        }
+                      >
+                        <ComponentCategorie
+                          name="Componentes prontos"
+                          svg={arrowSvg}
+                          state={categoriePremadeUp}
+                        />
+                      </div>
+
+                      <div
+                        className="flex gap-3"
+                        style={{
+                          display: categoriePremadeUp ? "flex" : "none",
+                        }}
+                      >
+                        <Drawer.Item name="Cabeçalho">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Seção principal">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Cards">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Seção de texto">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <div
+                        onClick={() => setCategorieOtherUp(!categorieOtherUp)}
+                      >
+                        <ComponentCategorie
+                          name="Outros"
+                          svg={arrowSvg}
+                          state={categorieOtherUp}
+                        />
+                      </div>
+
+                      <div
+                        className="flex gap-3"
+                        style={{
+                          display: categorieOtherUp ? "flex" : "none",
+                        }}
+                      >
+                        <Drawer.Item name="Botão/Link">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                        <Drawer.Item name="Imagem">
+                          {({ name }) => <PuckComponent name={name} />}
+                        </Drawer.Item>
+                      </div>
+                    </div>
+                  </div>
+                </Drawer>
               </div>
             ) : selectedOption === "fields" ? (
               <div className="px-4 pb-4 min-h-48 max-h-48 overflow-y-auto">
@@ -190,9 +323,9 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
               </div>
             ) : (
               <div className="px-4 pb-4 min-h-48 max-h-48 overflow-y-auto">
-                <MyFieldLabel label="Título da página">
+                <FieldLabel label="Título da página">
                   <UpdateRoot prop="title" name="Título da página"></UpdateRoot>
-                </MyFieldLabel>
+                </FieldLabel>
               </div>
             )}
           </div>
