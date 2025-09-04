@@ -15,8 +15,6 @@ export default function StyledComponentsRegistry({
     return <>{styles}</>;
   });
   if (typeof window !== "undefined") {
-    // 🟢 Client: NÃO envolva com `sheet`
-    // (deixa a injeção normal e permite um StyleSheetManager target abaixo assumir)
     return <>{children}</>;
   }
 

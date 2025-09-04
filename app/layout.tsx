@@ -24,7 +24,6 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${mono.variable}  antialiased relative`}
       >
-        {/* {children} */}
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
     </html>
