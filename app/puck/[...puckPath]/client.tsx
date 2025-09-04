@@ -214,7 +214,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                       </div>
 
                       <div
-                        className="flex gap-3"
+                        className="flex gap-3 px-3"
                         style={{ display: categorieTextUp ? "flex" : "none" }}
                       >
                         <Drawer.Item name="Título">
@@ -239,7 +239,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                       </div>
 
                       <div
-                        className="flex gap-3"
+                        className="flex gap-3 px-3"
                         style={{
                           display: categorieContainerUp ? "flex" : "none",
                         }}
@@ -266,7 +266,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                       </div>
 
                       <div
-                        className="flex gap-3"
+                        className="flex gap-3 px-3"
                         style={{
                           display: categoriePremadeUp ? "flex" : "none",
                         }}
@@ -297,7 +297,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                       </div>
 
                       <div
-                        className="flex gap-3"
+                        className="flex gap-3 px-3"
                         style={{
                           display: categorieOtherUp ? "flex" : "none",
                         }}

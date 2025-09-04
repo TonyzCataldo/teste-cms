@@ -10,7 +10,7 @@ export default function ComponentCategorie({
   state: boolean;
 }) {
   return (
-    <div className="flex group justify-between py-2 cursor-pointer  rounded-md hover:bg-[var(--gray)]">
+    <div className="flex group justify-between p-3 cursor-pointer bg-gray-100 rounded-md hover:bg-[var(--gray)]">
       <p className="group-hover:text-green-500 text-3xl">{name}</p>
       <Image
         src={svg}
