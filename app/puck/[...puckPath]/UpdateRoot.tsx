@@ -1,6 +1,6 @@
 import { createUsePuck } from "@measured/puck";
 const usePuck = createUsePuck();
-const UpdateRoot = ({ prop, name }) => {
+const UpdateRoot = ({ prop, name }: { prop: string; name: string }) => {
   const data = usePuck((s) => s.appState.data);
   const dispatch = usePuck((s) => s.dispatch);
   const value = data.root?.props?.[prop] ?? "";
