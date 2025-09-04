@@ -28,7 +28,7 @@ export default function PagesList({ names }: PagesListPropsType) {
     <ul className="flex flex-col list-none py-8 gap-6 sm:gap-8">
       {names.map((name) => (
         <li key={name} className="flex justify-center">
-          <div className="p-4 sm:p-6 border-2 border-[#583975] flex items-center bg-[var(--bg)] justify-between rounded-xl w-full">
+          <div className="p-4 sm:p-6 border-2 border-green-500 bg-[var(--gray)] flex items-center  justify-between rounded-xl w-full">
             <Link
               href={`/${name}`}
               className="text-2xl sm:text-[2rem] underline break-words w-[47%] min-[420px]:w-[56%]"

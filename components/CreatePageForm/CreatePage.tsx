@@ -31,7 +31,7 @@ export default function CreatePageForm() {
           type="text"
           id="nameInput"
           ref={inputRef}
-          className="bg-[var(--bg)] text-[var(--txt)] outline-0 p-2.5 sm:p-3.5 sm:text-[1.3rem]"
+          className="bg-[var(--bg)] rounded-sm text-[var(--txt)] outline-0 border-2 focus:border-green-500 border-[var(--gray)] p-2.5 sm:p-3.5 sm:text-[1.3rem]"
         ></input>
 
         {addFormError && (
