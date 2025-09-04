@@ -1,5 +1,4 @@
-import type { Config, Slot } from "@measured/puck";
-
+import type { Config } from "@measured/puck";
 import { Title } from "./PuckComponents/Title";
 import { Paragraph } from "./PuckComponents/Paragraph";
 import {
@@ -10,74 +9,15 @@ import {
 } from "./PuckComponents/LinkButton";
 import Head from "next/head";
 import { SemanticDiv } from "./PuckComponents/SemanticDiv";
-import Image from "next/image";
-import { ImageContainer } from "./PuckComponents/ImageContainer";
-
-type Props = {
-  Título: {
-    title: string;
-    fontSize: number;
-    heading: string;
-    paddingBlock: number;
-    color: string;
-    textAlign: string;
-  };
-  "Container flexível": {
-    content?: Slot;
-    direction: string;
-    verticalAlign: string;
-    horizontalAlign: string;
-    width: string;
-    semanticElement: string;
-    radius: number;
-    variant: string;
-    paddingBlock: number;
-    paddingInline: number;
-    gap: number;
-    wrap: "wrap" | "nowrap";
-  };
-  "Container em tabela": {
-    content?: Slot;
-    cols: number;
-    gap: number;
-    paddingBlock: number;
-    paddingInline: number;
-    semanticElement: string;
-  };
-  Paragrafo: {
-    text: string;
-    fontSize: number;
-    paddingBlock: number;
-    color: string;
-    textAlign: string;
-  };
-  "Botão/Link": {
-    text: string;
-    variant: string;
-    paddingBlock: string;
-    justifyContent: string;
-    width: number;
-    color: string;
-    textColor: string;
-    radius: number;
-    href: string;
-  };
-  Imagem: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    radius: number;
-  };
-  Cabeçalho: any;
-};
+import { Props } from "./puckComponentsType";
 
 export const config: Config<Props> = {
-  // categories: {
-  //   typography: {
-  //     components: ["Título"],
-  //   },
-  // },
+  categories: {
+    typography: {
+      components: ["Título"],
+      defaultExpanded: true,
+    },
+  },
   components: {
     Título: {
       label: "Título",
@@ -676,6 +616,410 @@ export const config: Config<Props> = {
                         },
                       },
                     ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      render: ({ content: Content }) => (
+        <div>
+          <Content />
+        </div>
+      ),
+    },
+    "Seção principal": {
+      label: "Seção pronta",
+      fields: {
+        content: {
+          type: "slot",
+        },
+      },
+      defaultProps: {
+        content: [
+          {
+            type: "Container flexível",
+            props: {
+              direction: "row",
+              verticalAlign: "center",
+              horizontalAlign: "center",
+              variant: "default",
+              paddingBlock: 80,
+              paddingInline: 10,
+              width: "auto",
+              gap: 80,
+              radius: 0,
+              semanticElement: "section",
+              wrap: "wrap",
+              content: [
+                {
+                  type: "Container flexível",
+                  props: {
+                    direction: "column",
+                    verticalAlign: "center",
+                    horizontalAlign: "center",
+                    variant: "default",
+                    paddingBlock: 0,
+                    paddingInline: 0,
+                    width: "auto",
+                    gap: 10,
+                    radius: 0,
+                    semanticElement: "div",
+                    wrap: "wrap",
+                    content: [
+                      {
+                        type: "Título",
+                        props: {
+                          title: "Crie suas páginas  do jeito que quiser!",
+                          fontSize: 32,
+                          heading: "h2",
+                          textAlign: "center",
+                          paddingBlock: 0,
+                          color: "black",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Utilize nossa ferramenta de forma gratuita para  criar suas páginas livremente.",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Utilize nossa ferramenta de forma gratuita para  criar suas páginas livremente.",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "green",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Utilize nossa ferramenta de forma gratuita para  criar suas páginas livremente.",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "red",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Container flexível",
+                        props: {
+                          direction: "row",
+                          verticalAlign: "center",
+                          horizontalAlign: "center",
+                          variant: "default",
+                          paddingBlock: 0,
+                          paddingInline: 0,
+                          width: "400px",
+                          gap: 0,
+                          radius: 0,
+                          semanticElement: "div",
+                          wrap: "wrap",
+                          content: [
+                            {
+                              type: "Botão/Link",
+                              props: {
+                                text: "Comece",
+                                variant: "contained",
+                                paddingBlock: "1rem",
+                                width: 45,
+                                color: "green",
+                                textColor: "white",
+                                justifyContent: "center",
+                                radius: 10,
+                                href: "https://www.youtube.com/playlist?list=PLpzmRsG7u_gpMogZpIcZnS0BsD3z8_x3n",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: "Imagem",
+                  props: {
+                    src: "https://i.pinimg.com/736x/44/c2/44/44c2445f9ba07d315728aa480df8fde2.jpg",
+                    alt: "Imagem do banner",
+                    width: 650,
+                    height: 500,
+                    radius: 10,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      render: ({ content: Content }) => (
+        <div>
+          <Content />
+        </div>
+      ),
+    },
+    Cards: {
+      label: "Cards",
+      fields: {
+        content: {
+          type: "slot",
+        },
+      },
+      defaultProps: {
+        content: [
+          {
+            type: "Container flexível",
+            props: {
+              direction: "row",
+              verticalAlign: "center",
+              horizontalAlign: "center",
+              variant: "default",
+              paddingBlock: 60,
+              paddingInline: 0,
+              width: "auto",
+              gap: 30,
+              radius: 0,
+              semanticElement: "section",
+              wrap: "wrap",
+              content: [
+                {
+                  type: "Container flexível",
+                  props: {
+                    direction: "column",
+                    verticalAlign: "center",
+                    horizontalAlign: "center",
+                    variant: "card",
+                    paddingBlock: 50,
+                    paddingInline: 15,
+                    width: "auto",
+                    gap: 10,
+                    radius: 10,
+                    semanticElement: "div",
+                    wrap: "wrap",
+                    content: [
+                      {
+                        type: "Imagem",
+                        props: {
+                          src: "https://i.pinimg.com/736x/44/c2/44/44c2445f9ba07d315728aa480df8fde2.jpg",
+                          alt: "Imagem do card",
+                          width: 150,
+                          height: 150,
+                          radius: 100,
+                        },
+                      },
+                      {
+                        type: "Título",
+                        props: {
+                          title: "Seu card",
+                          fontSize: 32,
+                          heading: "h3",
+                          textAlign: "center",
+                          paddingBlock: 0,
+                          color: "black",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Descreva seu card aqui",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Esse é um card muito elegante",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: "Container flexível",
+                  props: {
+                    direction: "column",
+                    verticalAlign: "center",
+                    horizontalAlign: "center",
+                    variant: "card",
+                    paddingBlock: 50,
+                    paddingInline: 15,
+                    width: "auto",
+                    gap: 10,
+                    radius: 10,
+                    semanticElement: "div",
+                    wrap: "wrap",
+                    content: [
+                      {
+                        type: "Imagem",
+                        props: {
+                          src: "https://i.pinimg.com/736x/44/c2/44/44c2445f9ba07d315728aa480df8fde2.jpg",
+                          alt: "Imagem do card",
+                          width: 150,
+                          height: 150,
+                          radius: 100,
+                        },
+                      },
+                      {
+                        type: "Título",
+                        props: {
+                          title: "Seu card",
+                          fontSize: 32,
+                          heading: "h3",
+                          textAlign: "center",
+                          paddingBlock: 0,
+                          color: "black",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Descreva seu card aqui",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Esse é um card muito elegante",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: "Container flexível",
+                  props: {
+                    direction: "column",
+                    verticalAlign: "center",
+                    horizontalAlign: "center",
+                    variant: "card",
+                    paddingBlock: 50,
+                    paddingInline: 15,
+                    width: "auto",
+                    gap: 10,
+                    radius: 10,
+                    semanticElement: "div",
+                    wrap: "wrap",
+                    content: [
+                      {
+                        type: "Imagem",
+                        props: {
+                          src: "https://i.pinimg.com/736x/44/c2/44/44c2445f9ba07d315728aa480df8fde2.jpg",
+                          alt: "Imagem do card",
+                          width: 150,
+                          height: 150,
+                          radius: 100,
+                        },
+                      },
+                      {
+                        type: "Título",
+                        props: {
+                          title: "Seu card",
+                          fontSize: 32,
+                          heading: "h3",
+                          textAlign: "center",
+                          paddingBlock: 0,
+                          color: "black",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Descreva seu card aqui",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                      {
+                        type: "Paragrafo",
+                        props: {
+                          text: "Esse é um card muito elegante",
+                          fontSize: 18,
+                          paddingBlock: 0,
+                          color: "gray",
+                          textAlign: "center",
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      render: ({ content: Content }) => (
+        <div>
+          <Content />
+        </div>
+      ),
+    },
+    "Seção de texto": {
+      label: "Seção de texto",
+      fields: {
+        content: {
+          type: "slot",
+        },
+      },
+      defaultProps: {
+        content: [
+          {
+            type: "Container flexível",
+            props: {
+              direction: "column",
+              verticalAlign: "center",
+              horizontalAlign: "center",
+              variant: "default",
+              paddingBlock: 50,
+              paddingInline: 15,
+              width: "auto",
+              gap: 10,
+              radius: 0,
+              semanticElement: "section",
+              wrap: "wrap",
+              content: [
+                {
+                  type: "Título",
+                  props: {
+                    title: "Seção de texto",
+                    fontSize: 40,
+                    heading: "h2",
+                    textAlign: "center",
+                    paddingBlock: 0,
+                    color: "black",
+                  },
+                },
+                {
+                  type: "Paragrafo",
+                  props: {
+                    text: "Texto para você colocar na sua seção de texto. Fique a vontade.",
+                    fontSize: 18,
+                    paddingBlock: 0,
+                    color: "gray",
+                    textAlign: "center",
                   },
                 },
               ],
