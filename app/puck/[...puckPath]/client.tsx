@@ -16,6 +16,8 @@ import PuckComponent from "./PuckComponent";
 import ComponentCategorie from "./ComponentCategorie";
 import FieldLabel from "./FieldLabel";
 import SaveButton from "./SaveButton";
+import { HandleEditorOptions } from "./HandleEditorOptions";
+import CategorieItems from "./CategorieItems";
 
 export function Client({ path, data }: { path: string; data: Partial<Data> }) {
   const [selectedOption, setSelectedOption] = useState("components");
@@ -147,10 +149,12 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
               <button
                 className="text-2xl cursor-pointer hover:underline decoration-green-500 underline-offset-8 "
                 onClick={() => {
-                  setSelectedOption("components");
-                  if (!isEditorUp) {
-                    setIsEditorUp(true);
-                  }
+                  HandleEditorOptions(
+                    setSelectedOption,
+                    setIsEditorUp,
+                    isEditorUp,
+                    "components"
+                  );
                 }}
               >
                 Componentes
@@ -158,10 +162,12 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
               <button
                 className="text-2xl cursor-pointer hover:underline decoration-green-500 underline-offset-8 "
                 onClick={() => {
-                  setSelectedOption("fields");
-                  if (!isEditorUp) {
-                    setIsEditorUp(true);
-                  }
+                  HandleEditorOptions(
+                    setSelectedOption,
+                    setIsEditorUp,
+                    isEditorUp,
+                    "fields"
+                  );
                 }}
               >
                 Propriedades
@@ -169,10 +175,12 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
               <button
                 className="text-2xl cursor-pointer hover:underline decoration-green-500 underline-offset-8 "
                 onClick={() => {
-                  setSelectedOption("outline");
-                  if (!isEditorUp) {
-                    setIsEditorUp(true);
-                  }
+                  HandleEditorOptions(
+                    setSelectedOption,
+                    setIsEditorUp,
+                    isEditorUp,
+                    "outline"
+                  );
                 }}
               >
                 Estrutura
@@ -180,10 +188,12 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
               <button
                 className="text-2xl cursor-pointer hover:underline decoration-green-500 underline-offset-8 "
                 onClick={() => {
-                  setSelectedOption("root");
-                  if (!isEditorUp) {
-                    setIsEditorUp(true);
-                  }
+                  HandleEditorOptions(
+                    setSelectedOption,
+                    setIsEditorUp,
+                    isEditorUp,
+                    "root"
+                  );
                 }}
               >
                 Página
@@ -194,7 +204,9 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                 onClick={() => setIsEditorUp(!isEditorUp)}
               >
                 <Image
-                  className={`w-6 ${isEditorUp ? "rotate-180" : "rotate-0"}`}
+                  className={`w-6 cursor-pointer ${
+                    isEditorUp ? "rotate-180" : "rotate-0"
+                  }`}
                   src={arrowSvg}
                   alt="cima/baixo icone"
                 />
@@ -213,17 +225,10 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                         />
                       </div>
 
-                      <div
-                        className="flex gap-3 px-3"
-                        style={{ display: categorieTextUp ? "flex" : "none" }}
-                      >
-                        <Drawer.Item name="Título">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Paragrafo">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                      </div>
+                      <CategorieItems
+                        names={["Título", "Paragrafo"]}
+                        categorieUp={categorieTextUp}
+                      />
                     </div>
                     <div className="flex flex-col gap-4">
                       <div
@@ -238,19 +243,10 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                         />
                       </div>
 
-                      <div
-                        className="flex gap-3 px-3"
-                        style={{
-                          display: categorieContainerUp ? "flex" : "none",
-                        }}
-                      >
-                        <Drawer.Item name="Container flexível">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Container tabela">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                      </div>
+                      <CategorieItems
+                        names={["Container flexível", "Container Tabela"]}
+                        categorieUp={categorieContainerUp}
+                      />
                     </div>
                     <div className="flex flex-col gap-4">
                       <div
@@ -265,25 +261,15 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                         />
                       </div>
 
-                      <div
-                        className="flex gap-3 px-3"
-                        style={{
-                          display: categoriePremadeUp ? "flex" : "none",
-                        }}
-                      >
-                        <Drawer.Item name="Cabeçalho">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Seção principal">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Cards">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Seção de texto">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                      </div>
+                      <CategorieItems
+                        names={[
+                          "Cabeçalho",
+                          "Seção Principal",
+                          "Cards",
+                          "Seção de texto",
+                        ]}
+                        categorieUp={categoriePremadeUp}
+                      />
                     </div>
                     <div className="flex flex-col gap-4">
                       <div
@@ -296,19 +282,10 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                         />
                       </div>
 
-                      <div
-                        className="flex gap-3 px-3"
-                        style={{
-                          display: categorieOtherUp ? "flex" : "none",
-                        }}
-                      >
-                        <Drawer.Item name="Botão/Link">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                        <Drawer.Item name="Imagem">
-                          {({ name }) => <PuckComponent name={name} />}
-                        </Drawer.Item>
-                      </div>
+                      <CategorieItems
+                        names={["Botão/Link", "Imagem"]}
+                        categorieUp={categorieOtherUp}
+                      />
                     </div>
                   </div>
                 </Drawer>
