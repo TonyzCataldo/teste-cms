@@ -1,38 +1,16 @@
-# `next` recipe
+Teste-CMS-Puck
 
-The `next` recipe showcases one of the most powerful ways to implement Puck using to provide an authoring tool for any route in your Next app.
+-- Como rodar o projeto:
+rode no seu terminal git clone https://github.com/TonyzCataldo/teste-cms
+npm install
+npm build
+npm start
 
-## Demonstrates
+--Contexto e aprendizados:
+Tive algumas dificuldades com a ferramenta Puck, principalmente com a parte de edição do layout de edição de páginas... mas com algum esforço e revirando a documentação consegui entender como usar os overrides, Drawer, Outline, Fields e etc....
 
-- Next.js App Router implementation
-- JSON database implementation with HTTP API
-- Catch-all routes to use puck for any route on the platform
-- Incremental static regeneration (ISR) for all Puck pages
+--Trade-offs e decisões:
+Quanto a criação dos componentes do puck decidi a seguinte abordagem: criar dois tipos de componentes... os primarios que são o corpo do site como Headings (titulos) e containers que são altamente manipulaveis para que o usuario possa alterar tamanhos, espaçamentos e etc e os componentes "pré prontos" que já tragam um container com os componentes primarios ajustados (Header, Section, Cards) para que o usuario consiga usar eles para entender como criar e alterar os componentes primarios deles para obter o layout que deseja...
 
-## Usage
-
-Run the generator and enter `next` when prompted
-
-```
-npx create-puck-app my-app
-```
-
-Start the server
-
-```
-yarn dev
-```
-
-Navigate to the homepage at https://localhost:3000. To edit the homepage, access the Puck editor at https://localhost:3000/edit.
-
-You can do this for any route on the application, **even if the page doesn't exist**. For example, visit https://localhost:3000/hello/world and you'll receive a 404. You can author and publish a page by visiting https://localhost:3000/hello/world/edit. After publishing, go back to the original URL to see your page.
-
-## Using this recipe
-
-To adopt this recipe you will need to:
-
-- **IMPORTANT** Add authentication to `/edit` routes. This can be done by modifying the example API routes in `/app/puck/api/route.ts` and server component in `/app/puck/[...puckPath]/page.tsx`. **If you don't do this, Puck will be completely public.**
-- Integrate your database into the API calls in `/app/puck/api/route.ts`
-- Implement a custom puck configuration in `puck.config.tsx`
-
-By default, this recipe will generate static pages by setting `dynamic` to [`force-static`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic) in the `/app/[...puckPath]/page.tsx`. This will strip headers and cookies. If you need dynamic pages, you can delete this.
+--Próximos passos:
+eu buscaria lidar melhor com questoes de responsividade por exemplo passando uma forma do usuario lidar com o container grid diminuindo o numero de colunas conforme a diminuicao da tela, ou no container flex passando flex-wrap conforme tal tamanho de tela e etc... no mais seguiria com a mesma abordagem de componentes primarios e componentes "pré prontos" para trazer opcoes de partes do layout prontas (mas sempre customizaveis pelo usuario)
