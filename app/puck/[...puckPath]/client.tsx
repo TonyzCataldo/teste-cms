@@ -14,7 +14,7 @@ import UpdateRoot from "./UpdateRoot";
 import TextInput from "./TextInput";
 import PuckComponent from "./PuckComponent";
 import ComponentCategorie from "./ComponentCategorie";
-import FieldLabel from "./FieldLabel";
+import FieldLabel, { FakeFieldLabel } from "./FieldLabel";
 import SaveButton from "./SaveButton";
 import { HandleEditorOptions } from "./HandleEditorOptions";
 import CategorieItems from "./CategorieItems";
@@ -71,7 +71,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
             </FieldLabel>
           ),
           radio: ({ name, value, onChange, field }) => (
-            <FieldLabel label={field.label ?? name} radio>
+            <FakeFieldLabel label={field.label ?? name}>
               <div className="flex justify-center my-2 gap-2.5">
                 {(field.options ?? []).map((opt, i) => {
                   const checked = value === opt.value;
@@ -91,7 +91,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
                   );
                 })}
               </div>
-            </FieldLabel>
+            </FakeFieldLabel>
           ),
           select: ({ name, value, onChange, field }) => (
             <FieldLabel label={field.label ?? name}>
